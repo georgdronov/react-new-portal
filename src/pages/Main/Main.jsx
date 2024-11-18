@@ -1,11 +1,25 @@
-import React from 'react'
-import styles from './styles.module.css'
-import NewsBanner from '../../components/NewsBanner/NewsBanner'
+import React, { useEffect } from "react";
+import styles from "./styles.module.css";
+import NewsBanner from "../../components/NewsBanner/NewsBanner";
+import { getNews } from "../../api/apiNews";
 
 export default function Main() {
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const news = await getNews();
+        console.log(news);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
   return (
     <main className={styles.main}>
-      <NewsBanner/>
+      <NewsBanner />
     </main>
-  )
+  );
 }
