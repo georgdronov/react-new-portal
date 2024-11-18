@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import NewsBanner from "../../components/NewsBanner/NewsBanner";
 import { getNews } from "../../api/apiNews";
+import NewsList from "../../components/NewsList/NewsList";
 
 export default function Main() {
+  const [news, setNews] = useState([]);
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const news = await getNews();
-        console.log(news);
+        const response = await getNews();
+        setNews(response.news);
       } catch (error) {
-        console.log(error);
+        setNews(error);
       }
     };
 
@@ -19,7 +22,9 @@ export default function Main() {
 
   return (
     <main className={styles.main}>
-      <NewsBanner />
+      {news.length > 0 ? <NewsBanner item={news[0]} /> : null}
+
+      <NewsList news={news}/>
     </main>
   );
 }
